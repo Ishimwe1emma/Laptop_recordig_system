@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UR Laptop System - Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== CSS VARIABLES ===== */
+        :root {
+            --primary-blue: #0066cc;
+            --secondary-blue: #004d99;
+            --light-blue: #e6f2ff;
+            --dark-gray: #333;
+            --medium-gray: #666;
+            --light-gray: #f5f5f5;
+            --white: #fff;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --shadow: 0 2px 10px rgba(0,0,0,0.1);
+            --radius: 8px;
+            --transition: all 0.3s ease;
+        }
+
+        /* ===== RESET & BASE STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-gray);
+            background: linear-gradient(135deg, var(--light-blue) 0%, #f8f9fa 100%);
+            min-height: 100vh;
+        }
+
+        /* ===== CONTAINER ===== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ===== FLASH MESSAGES ===== */
+        .flash-messages {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .flash {
+            padding: 15px 25px;
+            margin-bottom: 10px;
+            border-radius: var(--radius);
+            color: white;
+            animation: slideIn 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-width: 300px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .flash.success {
+            background: linear-gradient(135deg, var(--success) 0%, #20c997 100%);
+            border-left: 4px solid #1e9e3e;
+        }
+
+        .flash.danger {
+            background: linear-gradient(135deg, var(--danger) 0%, #c82333 100%);
+            border-left: 4px solid #bd2130;
+        }
+
+        .flash.info {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #0056b3 100%);
+            border-left: 4px solid #004d99;
+        }
+
+        .flash button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: var(--transition);
+            padding: 0 5px;
+        }
+
+        .flash button:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        /* ===== LOGIN PAGE ===== */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-box {
+            background: var(--white);
+            padding: 40px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .login-header {
+            margin-bottom: 30px;
+        }
+
+        .login-header h1 {
+            color: var(--primary-blue);
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .login-header .logo {
+            color: var(--primary-blue);
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .login-header p {
+            color: var(--medium-gray);
+            font-size: 14px;
+        }
+
+        /* ===== FORM STYLES ===== */
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--medium-gray);
+            font-weight: 500;
+        }
+
+        .form-group label i {
+            margin-right: 8px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: var(--radius);
+            font-size: 16px;
+            transition: var(--transition);
+            background: #fafafa;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(0,102,204,0.1);
+            background: white;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .login-box {
+                padding: 20px;
+            }
+            
+            .login-header h1 {
+                font-size: 20px;
+            }
+            
+            .login-header .logo {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Flash Messages Container -->
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">
+                        {{ message }}
+                        <button onclick="this.parentElement.remove()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Login Content -->
+    <div class="login-container">
+        <div class="login-box">
+            <div class="login-header">
+                <div class="logo">
+                    <i class="fas fa-laptop"></i>
+                </div>
+                <h1>University of Rwanda</h1>
+                <p>Laptop In/Out Recording System</p>
+            </div>
+            
+            <form method="POST" action="/login">
+                <div class="form-group">
+                    <label for="username"><i class="fas fa-user"></i> Username</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password"><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                
+                <button type="submit" class="btn btn-block">Login</button>
+            </form>
+            
+            <div style="margin-top: 20px; color: #666; font-size: 14px;">
+                <!-- Additional info can go here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for Flash Messages -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto-hide flash messages after 5 seconds
+            const flashMessages = document.querySelectorAll('.flash');
+            flashMessages.forEach(flash => {
+                setTimeout(() => {
+                    flash.style.opacity = '0';
+                    flash.style.transform = 'translateX(100%)';
+                    setTimeout(() => flash.remove(), 300);
+                }, 5000);
+            });
+            
+            // Close flash message when X is clicked
+            document.querySelectorAll('.flash button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const flash = this.parentElement;
+                    flash.style.opacity = '0';
+                    flash.style.transform = 'translateX(100%)';
+                    setTimeout(() => flash.remove(), 300);
+                });
+            });
+            
+            // Add focus to username field
+            const usernameInput = document.getElementById('username');
+            if (usernameInput && !usernameInput.value) {
+                setTimeout(() => usernameInput.focus(), 300);
+            }
+            
+            // Form validation
+            const form = document.querySelector('form');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    const username = document.getElementById('username');
+                    const password = document.getElementById('password');
+                    let isValid = true;
+                    
+                    // Clear previous errors
+                    document.querySelectorAll('.error-message').forEach(el => el.remove());
+                    username.style.borderColor = '';
+                    password.style.borderColor = '';
+                    
+                    if (!username.value.trim()) {
+                        isValid = false;
+                        username.style.borderColor = 'var(--danger)';
+                        const error = document.createElement('div');
+                        error.className = 'error-message';
+                        error.style.cssText = 'color: var(--danger); font-size: 12px; margin-top: 5px;';
+                        error.textContent = 'Username is required';
+                        username.parentNode.appendChild(error);
+                    }
+                    
+                    if (!password.value.trim()) {
+                        isValid = false;
+                        password.style.borderColor = 'var(--danger)';
+                        const error = document.createElement('div');
+                        error.className = 'error-message';
+                        error.style.cssText = 'color: var(--danger); font-size: 12px; margin-top: 5px;';
+                        error.textContent = 'Password is required';
+                        password.parentNode.appendChild(error);
+                    }
+                    
+                    if (!isValid) {
+                        e.preventDefault();
+                        
+                        // Show error message
+                        const errorFlash = document.createElement('div');
+                        errorFlash.className = 'flash danger';
+                        errorFlash.innerHTML = `
+                            <span>Please fill in all required fields</span>
+                            <button><i class="fas fa-times"></i></button>
+                        `;
+                        document.querySelector('.flash-messages').appendChild(errorFlash);
+                        
+                        // Auto-remove error message
+                        setTimeout(() => {
+                            errorFlash.style.opacity = '0';
+                            errorFlash.style.transform = 'translateX(100%)';
+                            setTimeout(() => errorFlash.remove(), 300);
+                        }, 5000);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
